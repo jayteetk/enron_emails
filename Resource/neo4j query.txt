@@ -1,0 +1,18 @@
+USING PERIODIC COMMIT 10000
+LOAD CSV WITH HEADERS FROM "file:///messages_combined.csv" AS row
+MERGE (email:Email {address: row.address})
+MERGE (user:User {user:row.user})
+MERGE (m:Message {mid:row.mid})
+SET m.body    = row.body,
+    m.subject = row.subject,
+    m.date    = row.date,
+    m.topic   = row.topic
+WITH row, m, email, CASE row.type WHEN "received" THEN [1] ELSE [] END AS received
+WITH row, m, email, received, CASE row.type WHEN "sent" THEN [1] ELSE [] END AS sent
+FOREACH (_ IN sent | MERGE (m)-[:SENT]->(email))
+FOREACH (_ IN received | MERGE (m)-[:RECIVED]->(email))
+
+LOAD CSV WITH HEADERS FROM "file:///alias.csv" AS row
+MERGE (email:Email{from_clean: row.from_clean})
+MERGE (user:User{user:row.user})
+MERGE (user)-[r:ALIAS]->(email)
