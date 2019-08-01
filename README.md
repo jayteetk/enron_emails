@@ -1,4 +1,7 @@
 ## Enron Email Expedition
+
+https://jayteetk.github.io/pages/
+
 ### Foreword
 This little repo was created for a project done during my course with General Assembly and may see further future enhancements, time permitting. Overall, this project is meant to be a proof of concept, utilizing NLP, Network analysis, and simple dashboarding to illustrate insights that can be achieved with a simplistic layer of machine learning on what is otherwise an data retrevial process. 
 
